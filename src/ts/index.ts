@@ -1,5 +1,5 @@
 import { notesToPlayInOrder } from "./music-to-play";
-import { MusicalNote } from "./musical-score";
+import { MusicalNote, BEATS_PER_MINUTE } from "./musical-score";
 
 
 function playSingleNote(notes:Array<MusicalNote>,noteNumber:number,time:number )
@@ -19,6 +19,7 @@ function playSingleNote(notes:Array<MusicalNote>,noteNumber:number,time:number )
     // playSingleNote() is called recursively according to the number of beats to be played
     setTimeout(()=>{
         audio.pause()
+        console.log(time*note.beats)
         playSingleNote(notes, (noteNumber+1)%notes.length, time)
     }, time*note.beats)
 }
@@ -26,10 +27,10 @@ function playSingleNote(notes:Array<MusicalNote>,noteNumber:number,time:number )
 function playMusic() {
     const notes = notesToPlayInOrder;
     // TODO Play these notes one after the other at the pitch and rhythm given in each note
-    const time= 100 ; //time period of per beat
+    const timePerBeat= 1*60*1000/BEATS_PER_MINUTE; //time period per beat
     
     // function to play single note
-    playSingleNote(notes, 0, time)
+    playSingleNote(notes, 0, timePerBeat)
 }
 
 document.getElementById('start-playing')?.addEventListener('click', playMusic);
